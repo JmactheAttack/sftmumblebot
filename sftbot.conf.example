@@ -3,6 +3,8 @@
 [mumble]
 server=mumble.example.com
 port=64738                 ; mumble default port
+keyfile=key.pem            ; generated key
+certfile=cert.pem          ; self-signed certificate
 nickname=sftbot
 channel=testchannel
 password=hunter2
