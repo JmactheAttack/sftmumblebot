@@ -112,6 +112,8 @@ def main():
     # configuration for the mumble connection
     mblservername = cparser.get('mumble', 'server')
     mblport = int(cparser.get('mumble', 'port'))
+    mblkeyfile = cparser.get('mumble', 'keyfile')
+    mblcertfile = cparser.get('mumble', 'certfile')
     mblnick = cparser.get('mumble', 'nickname')
     mblchannel = cparser.get('mumble', 'channel')
     mblpassword = cparser.get('mumble', 'password')
@@ -132,6 +134,8 @@ def main():
     mumble = MumbleConnection.MumbleConnection(
         mblservername,
         mblport,
+        mblkeyfile,
+        mblcertfile,
         mblnick,
         mblchannel,
         mblpassword,
