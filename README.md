@@ -11,6 +11,13 @@ You need to provide a config file that (among others) contains user credentials 
 
 You can either specify a conf file path as a command line argument (`sftbot myconffile.conf`), or place it at `./sftbot.conf` or `/etc/sftbot.conf`.
 
+#### Generating Self-Signed Certificates ####
+
+You can generate a self-signed SSL certificate for the bot by running the following line in the root of the sftmumblebot installation:
+`$ openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem`
+
+If you permanently install the script, you should specificy an absolute path in front of the certicates on the `sftbot.config` file.
+
 ### Behaviour
 
 By default, the bot
@@ -32,8 +39,8 @@ More complex, 'botty' behaviour may be implemented the same way; note that you c
 
 Nice-to-have features (which we don't plan to implement right now, but feel free to do it yourself):
 
-- SSL certificate validation support
-- SSL client certificate support
+- ~~SSL certificate validation support~~
+- ~~SSL client certificate support~~
 - More chat protocols (e.g. XMPP multi-user chat)
 - Init scripts for `<your distribution here>`
 
