@@ -68,18 +68,6 @@ class MumbleConnection(AbstractConnection.AbstractConnection):
         open the (SSL) socket and return True.
         # TODO: support server certificate validation, provide client cert
         """
-        #try:
-        #    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #    s.connect((self._hostname, self._port))
-        #    self._log("trying python default ssl socket", 3)
-        #    self._socket = ssl.wrap_socket(s)
-        #    return True
-        #except ssl.SSLError:
-        #    try:
-        #        s.close()
-        #    except:
-        #        pass
-
         try:
             self._log("python default ssl connection failed, trying TLSv1", 2)
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -92,6 +80,17 @@ class MumbleConnection(AbstractConnection.AbstractConnection):
             except:
                 pass
             raise Exception("Error setting up the SSL/TLS socket to murmur.")
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((self._hostname, self._port))
+            self._log("trying python default ssl socket", 3)
+            self._socket = ssl.wrap_socket(s)
+            return True
+        except ssl.SSLError:
+            try:
+                s.close()
+            except:
+                pass
 
     def _initConnection(self):
         # send version package.
