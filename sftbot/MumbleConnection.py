@@ -40,11 +40,13 @@ for k, v in messageTypes.items():
 class MumbleConnection(AbstractConnection.AbstractConnection):
 
     # call the superconstructor and set global configuration variables.
-    def __init__(self, hostname, port, nickname, channel, password, name,
+    def __init__(self, hostname, port, keyfile, certfile, nickname, channel, password, name,
                  loglevel):
         super(MumbleConnection, self).__init__(name, loglevel)
         self._hostname = hostname
         self._port = port
+        self._keyfile = keyfile
+        self._certfile = certfile
         self._nickname = nickname
         self._channel = channel
         self._password = password
@@ -66,23 +68,23 @@ class MumbleConnection(AbstractConnection.AbstractConnection):
         open the (SSL) socket and return True.
         # TODO: support server certificate validation, provide client cert
         """
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((self._hostname, self._port))
-            self._log("trying python default ssl socket", 3)
-            self._socket = ssl.wrap_socket(s)
-            return True
-        except ssl.SSLError:
-            try:
-                s.close()
-            except:
-                pass
+        #try:
+        #    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #    s.connect((self._hostname, self._port))
+        #    self._log("trying python default ssl socket", 3)
+        #    self._socket = ssl.wrap_socket(s)
+        #    return True
+        #except ssl.SSLError:
+        #    try:
+        #        s.close()
+        #    except:
+        #        pass
 
         try:
             self._log("python default ssl connection failed, trying TLSv1", 2)
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self._hostname, self._port))
-            self._socket = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLSv1)
+            self._socket = ssl.wrap_socket(s, self._keyfile, self._certfile, ssl_version=ssl.PROTOCOL_TLSv1, ciphers="AES256-SHA")
             return True
         except ssl.SSLError:
             try:
