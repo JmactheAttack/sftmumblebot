@@ -13,7 +13,7 @@ You can either specify a conf file path as a command line argument (`sftbot myco
 
 #### Generating Self-Signed Certificates ####
 
-You can generate a self-signed SSL certificate for the bot by running the following line in the root of the sftmumblebot installation:
+This bot has the capabilities of using Mumble's built-in SSL authentication methods to authenticate and register your bot on the server. If certificates are not generated, the bot will still be able to join the server, but it cannot be registered as an authenticated user on the server. To use this feature, you can generate a self-signed SSL certificate for the bot by running the following line in the root of the sftmumblebot installation directory:
 `$ openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem`
 
 If you permanently install the script, you should specificy an absolute path in front of the certicates on the `sftbot.config` file.
